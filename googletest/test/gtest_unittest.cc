@@ -31,6 +31,9 @@
 // Tests for Google Test itself.  This verifies that the basic constructs of
 // Google Test work.
 
+/* 2018.12.13 - Extend the interface parameters of gtest
+   Copyright (C) 2018. Huawei Technologies Co., Ltd. All rights reserved.*/
+
 #include "gtest/gtest.h"
 
 // Verifies that the command line flag variables can be accessed in
@@ -63,9 +66,7 @@ TEST(CommandLineFlagsTest, CanBeAccessedInCodeOnceGTestHIsIncluded) {
 #include <map>
 #include <vector>
 #include <ostream>
-#if GTEST_LANG_CXX11
 #include <unordered_set>
-#endif  // GTEST_LANG_CXX11
 
 #include "gtest/gtest-spi.h"
 #include "src/gtest-internal-inl.h"
@@ -7590,13 +7591,11 @@ struct NotReallyAHashTable {
 TEST(IsHashTable, Basic) {
   EXPECT_TRUE(testing::internal::IsHashTable<AHashTable>::value);
   EXPECT_FALSE(testing::internal::IsHashTable<NotReallyAHashTable>::value);
-#if GTEST_LANG_CXX11
+
+  EXPECT_TRUE(testing::internal::IsHashTable<AHashTable>::value);
+  EXPECT_FALSE(testing::internal::IsHashTable<NotReallyAHashTable>::value);
   EXPECT_FALSE(testing::internal::IsHashTable<std::vector<int>>::value);
   EXPECT_TRUE(testing::internal::IsHashTable<std::unordered_set<int>>::value);
-#endif  // GTEST_LANG_CXX11
-#if GTEST_HAS_HASH_SET_
-  EXPECT_TRUE(testing::internal::IsHashTable<__gnu_cxx::hash_set<int>>::value);
-#endif  // GTEST_HAS_HASH_SET_
 }
 
 // Tests ArrayEq().

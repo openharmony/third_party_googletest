@@ -30,6 +30,9 @@
 //
 // The Google C++ Testing and Mocking Framework (Google Test)
 
+/* 2018.12.13 - Extend the interface parameters of gtest
+   Copyright (C) 2018. Huawei Technologies Co., Ltd. All rights reserved.*/
+
 #include "gtest/gtest.h"
 #include "gtest/internal/custom/gtest.h"
 #include "gtest/gtest-spi.h"
@@ -5364,7 +5367,9 @@ int UnitTestImpl::FilterTests(ReactionToSharding shard_tests) {
 
       const bool is_runnable =
           (GTEST_FLAG(also_run_disabled_tests) || !is_disabled) &&
-          matches_filter;
+          matches_filter &&
+          testing::ext::TestFilter::instance()->accept(testing::ext::TestDefManager::cinstance()->queryFlagsFor(test_info, testing::ext::TestFlag::None))
+          ;
 
       const bool is_in_another_shard =
           shard_tests != IGNORE_SHARDING_PROTOCOL &&
@@ -5720,6 +5725,17 @@ static void PrintColorEncoded(const char* str) {
   }
 }
 
+static bool ParseFilterFlag(const char* arg) {
+  const std::map<const char*, string*> kvs = testing::ext::TestFilter::instance()->getAllFilterFlagsKv();
+  std::map<const char*, string*>::const_iterator c_iter;
+  for (c_iter = kvs.begin(); c_iter != kvs.end(); c_iter++) {
+    if (ParseStringFlag(arg, c_iter->first, c_iter->second)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 static const char kColorEncodedHelpMessage[] =
 "This program contains tests written using " GTEST_NAME_ ". You can use the\n"
 "following command line flags to control its behavior:\n"
@@ -5812,7 +5828,8 @@ static bool ParseGoogleTestFlag(const char* const arg) {
       ParseStringFlag(arg, kStreamResultToFlag,
                       &GTEST_FLAG(stream_result_to)) ||
       ParseBoolFlag(arg, kThrowOnFailureFlag,
-                    &GTEST_FLAG(throw_on_failure));
+                    &GTEST_FLAG(throw_on_failure)) ||
+      ParseFilterFlag(arg);
 }
 
 #if GTEST_USE_OWN_FLAGFILE_FLAG_
@@ -5887,6 +5904,12 @@ void ParseGoogleTestFlagsOnlyImpl(int* argc, CharType** argv) {
     // latter may not be called at all if the user is using Google
     // Test with another testing framework.
     PrintColorEncoded(kColorEncodedHelpMessage);
+    testing::ext::TestFilter::instance()->printHelp();
+  }
+
+  const bool no_error = testing::ext::TestFilter::instance()->postParsingArguments();
+  if (!no_error) {
+    exit(EXIT_FAILURE);
   }
 }
 
