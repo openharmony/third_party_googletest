@@ -30,8 +30,12 @@
 //
 // Unit test for gtest_prod.h.
 
+/* 2018.12.13 - Extend the interface parameters of gtest
+   Copyright (C) 2018. Huawei Technologies Co., Ltd. All rights reserved.*/
+
 #include "production.h"
 #include "gtest/gtest.h"
+#include "test/gtest_ext_unittest.cc"
 
 // Tests that private members can be accessed from a TEST declared as
 // a friend of the class.

@@ -49,6 +49,9 @@
 
 // GOOGLETEST_CM0001 DO NOT DELETE
 
+/* 2018.12.13 - Extend the interface parameters of gtest
+   Copyright (C) 2018. Huawei Technologies Co., Ltd. All rights reserved.*/
+
 #ifndef GTEST_INCLUDE_GTEST_GTEST_H_
 #define GTEST_INCLUDE_GTEST_GTEST_H_
 
@@ -65,6 +68,10 @@
 #include "gtest/gtest_prod.h"
 #include "gtest/gtest-test-part.h"
 #include "gtest/gtest-typed-test.h"
+
+#include "gtest/hwext/gtest-tag.h"
+#include "gtest/hwext/gtest-ext.h"
+#include "gtest/hwext/gtest-filter.h"
 
 GTEST_DISABLE_MSC_WARNINGS_PUSH_(4251 \
 /* class A needs to have dll-interface to be used by clients of class B */)
