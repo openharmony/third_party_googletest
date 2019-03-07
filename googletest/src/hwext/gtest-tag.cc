@@ -113,12 +113,12 @@ namespace testing {
     }
 
     TestSizeSet::TestSizeSet() : TestFlag("testsize", "Select tests by test size hint.", 0xff << 24) {
+        element("Level0", Level0);
         element("Level1", Level1);
         element("Level2", Level2);
         element("Level3", Level3);
         element("Level4", Level4);
         element("Level5", Level5);
-        element("Level6", Level6);
     }
 
     static std::vector<const TestFlag*> sets;
