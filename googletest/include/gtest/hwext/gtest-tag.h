@@ -66,12 +66,12 @@ namespace testing {
     class  TestSizeSet : public TestFlag {
     public:
         TestSizeSet();
-		static const int Level1 = 1  << 24;
-		static const int Level2 = 2  << 24;
-		static const int Level3 = 4  << 24;
-		static const int Level4 = 8  << 24;
-		static const int Level5 = 16 << 24;
-		static const int Level6 = 32 << 24;
+        static const int Level0 = 1  << 24;
+        static const int Level1 = 2  << 24;
+        static const int Level2 = 4  << 24;
+        static const int Level3 = 8  << 24;
+        static const int Level4 = 16 << 24;
+        static const int Level5 = 32 << 24;
     };
 
     extern const PlatformSet Platform;
@@ -81,9 +81,9 @@ namespace testing {
 
     // get each instance of all the TestFlag implementions
     const std::vector<const TestFlag*>& allHextTagSets();
-    // verify the test flagset, returns false if the flagset is illegal 
+    // verify the test flagset, returns false if the flagset is illegal
     bool checkFlagsLegality(int flags);
-    // convert name string to test flag value 
+    // convert name string to test flag value
     bool flagForName(const char* set_name, const char* ele_name, int& result);
 
   }// namespace ext
