@@ -49,6 +49,7 @@ GTEST_API_ int main(int argc, char** argv) {
   // Since Google Mock depends on Google Test, InitGoogleMock() is
   // also responsible for initializing Google Test.  Therefore there's
   // no need for calling testing::InitGoogleTest() separately.
+  testing::GTEST_FLAG(output) = "xml:./";
   testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
 }
