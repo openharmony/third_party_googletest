@@ -13,6 +13,7 @@ namespace testing {
     using ::std::string;
     using ::std::map;
     using ::std::pair;
+    using ::std::vector;
 
     // base class of tag flag::bitwise integers
     class TestFlag {
@@ -35,33 +36,6 @@ namespace testing {
         void printHelp(const char** indents) const;
     };
 
-    // platform scope
-    class PlatformSet : public TestFlag {
-    public:
-        PlatformSet();
-        static const int Hisi = 0x01 << 0;
-        static const int Qcom = 0x02 << 0;
-    };
-
-    // chip scope
-    class ChipSet : public TestFlag {
-    public:
-        ChipSet();
-        static const int Hi3660   = 0x01 << 8;
-        static const int Kirin960 = 0x02 << 8;
-        static const int Kirin970 = 0x04 << 8;
-        static const int Q8639    = 0x08 << 8;
-    };
-
-    // device scope
-    class DeviceSet : public TestFlag {
-    public:
-        DeviceSet();
-        static const int Dual_Sim = 0x01 << 16;
-        static const int Sim      = 0x02 << 16;
-        static const int Sdcard   = 0x04 << 16;
-    };
-
     // test size scope
     class  TestSizeSet : public TestFlag {
     public:
@@ -71,22 +45,18 @@ namespace testing {
         static const int Level2 = 4  << 24;
         static const int Level3 = 8  << 24;
         static const int Level4 = 16 << 24;
-        static const int Level5 = 32 << 24;
     };
 
-    extern const PlatformSet Platform;
-    extern const ChipSet Chip;
-    extern const DeviceSet Device;
     extern const TestSizeSet TestSize;
 
     // get each instance of all the TestFlag implementions
-    const std::vector<const TestFlag*>& allHextTagSets();
+    const vector<const TestFlag*>& allHextTagSets();
     // verify the test flagset, returns false if the flagset is illegal
     bool checkFlagsLegality(int flags);
     // convert name string to test flag value
     bool flagForName(const char* set_name, const char* ele_name, int& result);
 
-  }// namespace ext
-}  // namespace testing
+  } // namespace ext
+} // namespace testing
 
 #endif  // GTEST_INCLUDE_GTEST_GTEST_TAG_H_

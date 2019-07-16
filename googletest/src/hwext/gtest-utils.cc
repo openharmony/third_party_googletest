@@ -47,4 +47,35 @@ namespace testing {
 
         return true;
     }
-}
+
+    bool IsElementInVector(vector<int> vec, int element){
+        vector<int>::iterator it = find(vec.begin(), vec.end(), element);
+        if (it != vec.end()) {
+            return true;
+        }
+        return false;
+    }
+
+    vector<string> SplitString(const string& str, const string& delim) {
+        vector<string> result;
+        if (str != "") {
+            int len = str.length();
+            char *src = new char[len + 1];
+            memset(src, 0, len + 1);
+            strcpy(src, str.c_str());
+            src[len] = '\0';
+
+            char *tokenptr = strtok(src, delim.c_str());
+            while (tokenptr != NULL)
+            {
+                string tk = tokenptr;
+                result.emplace_back(tk);
+                tokenptr = strtok(NULL, delim.c_str());
+            }
+            delete[] src;
+        }
+
+        return result;
+    }
+
+} // namespace testing

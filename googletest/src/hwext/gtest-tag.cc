@@ -6,10 +6,6 @@
 namespace testing {
   namespace ext {
 
-    // instantiate the static global members [never do this in .h]
-    const PlatformSet Platform;
-    const ChipSet Chip;
-    const DeviceSet Device;
     const TestSizeSet TestSize;
 
     TestFlag::TestFlag(const char*  n, const char* d, int m) : name(n), desc(d), mask(m) {
@@ -94,31 +90,12 @@ namespace testing {
         return true;
     }
 
-    PlatformSet::PlatformSet() :TestFlag("platform", "Select tests by platform requirment.", 0xff << 0) {
-        element("Hisi", Hisi);
-        element("Qcom", Qcom);
-    }
-
-    ChipSet::ChipSet() : TestFlag("chip", "Select tests by chip requirment.", 0xff << 8) {
-        element("Hi3660", Hi3660);
-        element("Kirin960", Kirin960);
-        element("Kirin970", Kirin970);
-        element("Q8639", Q8639);
-    }
-
-    DeviceSet::DeviceSet() : TestFlag("device", "Select tests by device configuration requirment.", 0xff << 16) {
-        element("Dual_Sim", Dual_Sim);
-        element("Sim", Sim);
-        element("Sdcard", Sdcard);
-    }
-
-    TestSizeSet::TestSizeSet() : TestFlag("testsize", "Select tests by test size hint.", 0xff << 24) {
+    TestSizeSet::TestSizeSet() : TestFlag("testsize", "Select tests by test level hint.", 0xff << 24) {
         element("Level0", Level0);
         element("Level1", Level1);
         element("Level2", Level2);
         element("Level3", Level3);
         element("Level4", Level4);
-        element("Level5", Level5);
     }
 
     static std::vector<const TestFlag*> sets;
@@ -127,9 +104,6 @@ namespace testing {
         if (sets.size() > 0) {
             return;
         }
-        sets.push_back(&Platform);
-        sets.push_back(&Chip);
-        sets.push_back(&Device);
         sets.push_back(&TestSize);
     }
 
@@ -166,5 +140,5 @@ namespace testing {
         return false;
     }
 
-  }
-}
+  } // namespace ext
+} // namespace testing

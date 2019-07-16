@@ -54,6 +54,7 @@
 #include <ostream>  // NOLINT
 #include <sstream>
 #include <vector>
+using namespace testing::ext;
 
 #if GTEST_OS_LINUX
 
@@ -2145,7 +2146,8 @@ static const char* const kReservedTestSuiteAttributes[] = {
 // The list of reserved attributes used in the <testcase> element of XML output.
 static const char* const kReservedTestCaseAttributes[] = {
     "classname",  "name",        "status", "time",
-    "type_param", "value_param", "file",   "line"};
+    "type_param", "value_param", "file",   "line",
+    "level"};
 
 template <int kSize>
 std::vector<std::string> ArrayAsVector(const char* const (&array)[kSize]) {
@@ -3722,6 +3724,10 @@ void XmlUnitTestResultPrinter::OutputXmlTestInfo(::std::ostream* stream,
   OutputXmlAttribute(stream, kTestcase, "time",
                      FormatTimeInMillisAsSeconds(result.elapsed_time()));
   OutputXmlAttribute(stream, kTestcase, "classname", test_case_name);
+
+  int level = testing::ext::TestDefManager::cinstance()->getLevel(test_info.test_case_name(), test_info.name());
+  string strlevel = std::to_string(level);
+  OutputXmlAttribute(stream, kTestcase, "level", strlevel.c_str());
 
   int failures = 0;
   for (int i = 0; i < result.total_part_count(); ++i) {
