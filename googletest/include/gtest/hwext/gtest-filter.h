@@ -5,35 +5,38 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 namespace testing {
   namespace ext {
+
     using ::std::string;
     using ::std::map;
+    using ::std::vector;
 
     class TestFilter {
     public:
         map<const char*, string*>& getAllFilterFlagsKv();
         void printHelp() const;
         bool postParsingArguments();
-        int requireFlags() const { return requiredFlags; }
         bool accept(int flags) const;
-        void reset(); // for unittest
+        void reset();
         static TestFilter* instance();
+
     private:
         TestFilter() {};
-        //static const char* const kReqNoKey;
         static const char* const kStrictFilter;
-        const map<const char*, string*> allFilterFlagsKv();
         int requiredFlags;
         // strcit filter requires the entirely same test flags and require no
         bool strictMode;
         bool flag_kvs_inited; // teels iff the filter kvs has been parsed
         bool ready; // teels iff the filter are ready to be used
         map<const char*, string*> filterFlagsKv;
+        vector<int> vecTestLevel;
     };
-  }// namespace ext
-}  // namespace testing
+
+  } // namespace ext
+} // namespace testing
 
 #endif  // GTEST_INCLUDE_GTEST_GTEST_FILTER_H_
 

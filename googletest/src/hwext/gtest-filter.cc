@@ -28,10 +28,7 @@ namespace testing {
             sets.at(i)->printHelp(indents);
         }
 
-        printf("%sSelect tests by requirement number, may be a list seperated by ',' or ';'.\n", indents[1]);
-        printf("%s--gtest_%s=(true|false).\n", indents[0], kStrictFilter);
-        printf("%sSelect tests with strict flags. If this flag is set to true, only tests with\n\
-            %sexactly the same tags and require number as specified will run.", indents[1], indents[1]);
+        printf("%sSelect tests by test level, may be a list seperated by ',' or ';'.\n", indents[1]);
     }
 
     map<const char*, string*>& TestFilter::getAllFilterFlagsKv() {
@@ -58,20 +55,44 @@ namespace testing {
             return true;
         }
 
+        const char* kCandidateSeps = ",;|/";
         ready = true;
         bool error = false;
-        // establish required flags
         map<const char*, string*>::iterator iter;
 
         for (iter = filterFlagsKv.begin(); iter != filterFlagsKv.end(); iter++) {
             const char * kstr = iter->first;
             const char * vstr = iter->second->c_str();
             int flag = TestFlag::None;
+
             if(compareStringsByIgnoreCase(kStrictFilter, kstr)) {
                 strictMode = compareStringsByIgnoreCase("true", vstr) || compareStringsByIgnoreCase("t", vstr);
             }
             else if (flagForName(kstr, vstr, flag)) {
-                requiredFlags |= flag;
+                string strname = string(kstr);
+                string strval  = string(vstr);
+                vector<string> vectemp = SplitString(strval, kCandidateSeps);
+
+                if (strname == "testsize") {
+                    for (size_t i = 0; i < vectemp.size(); i++) {
+                        string curr = vectemp[i];
+                        if (curr == "Level0") {
+                            vecTestLevel.push_back(1);
+                        }
+                        else if (curr == "Level1") {
+                            vecTestLevel.push_back(2);
+                        }
+                        else if (curr == "Level2") {
+                            vecTestLevel.push_back(4);
+                        }
+                        else if (curr == "Level3") {
+                            vecTestLevel.push_back(8);
+                        }
+                        else if (curr == "Level4") {
+                            vecTestLevel.push_back(16);
+                        }
+                    }
+                }
             }
             else {
                 // illegal arguments
@@ -92,13 +113,19 @@ namespace testing {
             return true;
         }
 
-        // if in strict mode, accepted flags should be equal to the required one; else, accepted
-        // falgs should have all actived bits that the requiredFlags has
-        const bool flags_accepted = strictMode ? flags == requiredFlags : (flags&requiredFlags) == requiredFlags;
+        int level = (flags >> 24);
+        bool flags_accepted = false;
+        if (!strictMode) {
+            flags_accepted = IsElementInVector(vecTestLevel, level);
+        }
+        else {
+            flags_accepted = ((flags&requiredFlags) == requiredFlags);
+        }
+
         if (!flags_accepted) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -110,5 +137,5 @@ namespace testing {
         ready = false;
     }
 
-  }
-}
+  } // namespace ext
+} // namespace testing

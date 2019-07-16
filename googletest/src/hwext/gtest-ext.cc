@@ -105,5 +105,23 @@ namespace testing {
             return false;
         }
     }
+
+    int TestDefManager::getLevel(const std::string testcasename, const std::string testname) const {
+      for (unsigned int i = 0; i < testDefInfos.size(); i++)
+      {
+          const TestDefInfo* info = testDefInfos.at(i);
+          if (info->test_case_name == testcasename && info->name == testname)
+          {
+              int level = (info->flags >> 24);
+              if (level == 1) return 0;
+              if (level == 2) return 1;
+              if (level == 4) return 2;
+              if (level == 8) return 3;
+              if (level == 16) return 4;
+          }
+      }
+      return -1;
   }
-}
+
+  } //namespace ext
+} //namespace testing
