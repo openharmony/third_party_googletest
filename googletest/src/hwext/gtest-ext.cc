@@ -107,11 +107,34 @@ namespace testing {
     }
 
     int TestDefManager::getLevel(const std::string testcasename, const std::string testname) const {
+      NamingMatchType case_name_mt = AEqualsB;
+      NamingMatchType test_name_mt = AEqualsB;
+
       for (unsigned int i = 0; i < testDefInfos.size(); i++)
       {
           const TestDefInfo* info = testDefInfos.at(i);
-          if (info->test_case_name == testcasename && info->name == testname)
-          {
+          switch (info->def_type) {
+          case Plain:
+          case Fixtured:
+              case_name_mt = AEqualsB;
+              test_name_mt = AEqualsB;
+              break;
+          case Typed:
+              case_name_mt = AStartsWithB;
+              test_name_mt = AEqualsB;
+              break;
+          case PatternTyped:
+              case_name_mt = AContainsB;
+              test_name_mt = AEqualsB;
+              break;
+          case Parameterized:
+              case_name_mt = AEndsWithB;
+              test_name_mt = AStartsWithB;
+              break;
+          }
+
+          const bool matched = matchNaming(testcasename.c_str(), info->test_case_name, case_name_mt) && matchNaming(testname.c_str(), info->name, test_name_mt);
+          if (matched) {
               int level = (info->flags >> 24);
               if (level == 1) return 0;
               if (level == 2) return 1;
