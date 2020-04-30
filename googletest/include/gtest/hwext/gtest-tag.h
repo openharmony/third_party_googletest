@@ -3,7 +3,7 @@
 #ifndef GTEST_INCLUDE_GTEST_GTEST_TAG_H_
 #define GTEST_INCLUDE_GTEST_GTEST_TAG_H_
 
-#include <string>
+#include <string.h>
 #include <map>
 #include <vector>
 
