@@ -74,6 +74,7 @@ namespace testing {
         bool regist(const char* test_case_name, const char* test_name, int test_flags, TestDefType tdf);
         int queryFlagsFor(const TestInfo* test, int def_value) const;
         int getLevel(const std::string testcasename, const std::string testname) const;
+        int* getTestFlags(const std::string testcasename, const std::string testname) const;
     };
 
   } // namespace ext

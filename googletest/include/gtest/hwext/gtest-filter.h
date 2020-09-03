@@ -31,8 +31,14 @@ namespace testing {
         bool strictMode;
         bool flag_kvs_inited; // teels iff the filter kvs has been parsed
         bool ready; // teels iff the filter are ready to be used
+        void postSetType(vector<string> vectemp);
+        void postSetSize(vector<string> vectemp);
+        void postSetRank(vector<string> vectemp);
         map<const char*, string*> filterFlagsKv;
         vector<int> vecTestLevel;
+        vector<int> vecType;
+        vector<int> vecSize;
+        vector<int> vecRank;
     };
 
   } // namespace ext
