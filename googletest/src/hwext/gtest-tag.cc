@@ -1,6 +1,31 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2018-2020. All rights reserved.
- * Description: 实现CPPTest的flag标识设置
+ * Copyright (c) 2020, Huawei Device Co., Ltd. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this list of
+ *    conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *    of conditions and the following disclaimer in the documentation and/or other materials
+ *    provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its contributors may be used
+ *    to endorse or promote products derived from this software without specific prior written
+ *    permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "gtest/hwext/gtest-tag.h"
@@ -10,25 +35,16 @@ namespace testing {
   namespace ext {
 
     const TestSizeSet TestSize;
-    const TypeSet G_TYPE;
-    const SizeSet G_SIZE;
-    const RankSet G_RANK;
-    const int G_TESTSIZESHIFT = 24;
-    const int G_TYPESHIFT = 8;
-    const int G_SIZESHIFT = 4;
 
-    TestFlag::TestFlag(const char*  n, const char* d, int m) : name(n), desc(d), mask(m) 
-    {
+    TestFlag::TestFlag(const char*  n, const char* d, int m) : name(n), desc(d), mask(m) {
         eleCount = 0;
     }
 
-    void TestFlag::element(const char* desc, int hex) 
-    {
+    void TestFlag::element(const char* desc, int hex) {
         elementMap.insert(pair<int, const char* const>(hex, desc));
     }
 
-    void TestFlag::printHelp(const char** indents) const 
-    {
+    void TestFlag::printHelp(const char** indents) const {
         map<int, const char*>::const_iterator c_iter;
         int i = 0;
         printf("%s--gtest_%s=(", indents[0], naming());
@@ -40,8 +56,7 @@ namespace testing {
         printf("%s%s\n", indents[1], description());
     }
 
-    bool TestFlag::verify(int hex, char* err) const 
-    {
+    bool TestFlag::verify(int hex, char* err) const {
         // wipe bits not belong to this set
         int masked = hex&mask;
 
@@ -60,8 +75,7 @@ namespace testing {
         return nice;
     }
 
-    bool TestFlag::eleForName(const char* name, int& result) const 
-    {
+    bool TestFlag::eleForName(const char* name, int& result) const {
         if (name == NULL) {
             // NOTE:: strlen(NULL) will cause seg fault
             return false;
@@ -104,46 +118,12 @@ namespace testing {
         return true;
     }
 
-    TestSizeSet::TestSizeSet() : TestFlag ("testsize", "Select tests by test level hint.", 0xff << G_TESTSIZESHIFT) 
-    {
+    TestSizeSet::TestSizeSet() : TestFlag("testsize", "Select tests by test level hint.", 0xff << 24) {
         element("Level0", Level0);
         element("Level1", Level1);
         element("Level2", Level2);
         element("Level3", Level3);
         element("Level4", Level4);
-    }
-
-    TypeSet::TypeSet() : TestFlag ("type", "Select testcase by type hint.", 0x0f << G_TYPESHIFT) 
-    {
-        element("Function", function);
-        element("Performance", performance);
-        element("Power", power);
-        element("Reliability", reliability);
-        element("Security", security);
-        element("Global", global);
-        element("Compatibility", compatibility);
-        element("User", user);
-        element("Standard", standard);
-        element("Safety", safety);
-        element("Resilience", resilience);
-    }
-
-
-    SizeSet::SizeSet() : TestFlag ("size", "Select testcase by size hint.", 0x0f << G_SIZESHIFT) 
-    {
-        element("SmallTest", smallTest);
-        element("MediumTest", mediumTest);
-        element("LargeTest", largeTest);
-    }
-
-
-    RankSet::RankSet() : TestFlag("rank", "Select testcase by rank hint.", 0x0f) 
-    {
-        element("Level0", level0);
-        element("Level1", level1);
-        element("Level2", level2);
-        element("Level3", level3);
-        element("Level4", level4);
     }
 
     static std::vector<const TestFlag*> sets;
@@ -153,19 +133,14 @@ namespace testing {
             return;
         }
         sets.push_back(&TestSize);
-        sets.push_back(&G_TYPE);
-        sets.push_back(&G_SIZE);
-        sets.push_back(&G_RANK);
     }
 
-    const std::vector<const TestFlag*>& AllHextTagSets() 
-    {
+    const std::vector<const TestFlag*>& allHextTagSets() {
         ensureSetsInit();
         return sets;
     }
 
-    bool CheckFlagsLegality(int flags) 
-    {
+    bool checkFlagsLegality(int flags) {
         ensureSetsInit();
         char buf[256];
         for (unsigned int i = 0; i < sets.size(); i++)
