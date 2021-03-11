@@ -1,31 +1,6 @@
 /*
- * Copyright (c) 2020, Huawei Device Co., Ltd. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this list of
- *    conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice, this list
- *    of conditions and the following disclaimer in the documentation and/or other materials
- *    provided with the distribution.
- *
- * 3. Neither the name of the copyright holder nor the names of its contributors may be used
- *    to endorse or promote products derived from this software without specific prior written
- *    permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2018-2020. All rights reserved.
+ * Description: CPPTest框架中ext入口
  */
 
 #include <stdio.h>
@@ -39,7 +14,8 @@ namespace testing {
   namespace ext {
     #define GTEST_EXT_DEBUG 0
 
-    TestDefManager* TestDefManager::instance() {
+    TestDefManager* TestDefManager::instance() 
+    {
         static TestDefManager* instance_ = NULL;
         if (instance_ == NULL) {
             instance_ = new TestDefManager();
@@ -47,7 +23,8 @@ namespace testing {
         return instance_;
     }
 
-    const TestDefManager* TestDefManager::cinstance() {
+    const TestDefManager* TestDefManager::cinstance() 
+    {
         return instance();
     }
 
@@ -55,17 +32,20 @@ namespace testing {
     TestDefInfo::TestDefInfo(const char* tcn, const char* n, int fs, TestDefType tdf) :\
         test_case_name(tcn), name(n), flags(fs), def_type(tdf) {};
 
-    bool TestDefManager::regist(const char* test_case_name, const char* test_name, int test_flags, TestDefType tdf) {
+    bool TestDefManager::regist(const char* test_case_name, const char* test_name, int test_flags, TestDefType tdf) 
+    {
         TestDefManager::testDefInfos.push_back(new TestDefInfo(test_case_name, test_name, test_flags, tdf));
         return true;
     }
 
-    int TestDefManager::queryFlagsFor(const TestInfo* test, int def_value) const {
+    int TestDefManager::queryFlagsFor(const TestInfo* test, int def_value) const 
+    {
         const TestDefInfo* def = findDefFor(test);
         return def == NULL ? def_value : def->flags;
     }
 
-    const TestDefInfo* TestDefManager::findDefFor(const TestInfo* test) const {
+    const TestDefInfo* TestDefManager::findDefFor(const TestInfo* test) const 
+    {
         // search by matching test definition information
         NamingMatchType case_name_mt = AEqualsB;
         NamingMatchType test_name_mt = AEqualsB;
@@ -74,26 +54,29 @@ namespace testing {
         {
             const TestDefInfo* info = testDefInfos.at(i);
             switch (info->def_type) {
-            case Plain:
-            case Fixtured:
-                case_name_mt = AEqualsB;
-                test_name_mt = AEqualsB;
-                break;
-            case Typed:
-                case_name_mt = AStartsWithB;
-                test_name_mt = AEqualsB;
-                break;
-            case PatternTyped:
-                case_name_mt = AContainsB;
-                test_name_mt = AEqualsB;
-                break;
-            case Parameterized:
-                case_name_mt = AEndsWithB;
-                test_name_mt = AStartsWithB;
-                break;
+                case Plain:
+                case Fixtured:
+                    case_name_mt = AEqualsB;
+                    test_name_mt = AEqualsB;
+                    break;
+                case Typed:
+                    case_name_mt = AStartsWithB;
+                    test_name_mt = AEqualsB;
+                    break;
+                case PatternTyped:
+                    case_name_mt = AContainsB;
+                    test_name_mt = AEqualsB;
+                    break;
+                case Parameterized:
+                    case_name_mt = AEndsWithB;
+                    test_name_mt = AStartsWithB;
+                    break;
+                default:
+                    break;
             }
 
-            const bool matched = matchNaming(test->test_case_name(), info->test_case_name, case_name_mt) && matchNaming(test->name(), info->name, test_name_mt);
+            const bool matched = matchNaming(test->test_case_name(), info->test_case_name, case_name_mt) 
+              && matchNaming(test->name(), info->name, test_name_mt);
             if (matched) {
                 return info;
             }
@@ -105,7 +88,8 @@ namespace testing {
         return NULL;
     }
 
-    bool TestDefManager::matchNaming(const char* const a, const char* const b, NamingMatchType mt) const {
+    bool TestDefManager::matchNaming(const char * const a, const char * const b, NamingMatchType mt) const 
+    {
         const char sep = TestDefInfo::kNamingSepchar;
         const int len_a = strlen(a);
         const int len_b = strlen(b);
@@ -134,45 +118,103 @@ namespace testing {
         }
     }
 
-    int TestDefManager::getLevel(const std::string testcasename, const std::string testname) const {
-      NamingMatchType case_name_mt = AEqualsB;
-      NamingMatchType test_name_mt = AEqualsB;
+    int TestDefManager::getLevel(const std::string testcasename, const std::string testname) const 
+    {
+        NamingMatchType case_name_mt = AEqualsB;
+        NamingMatchType test_name_mt = AEqualsB;
+        int levelShift = 24;
+        int levelList[5] = {1, 2, 4, 8, 16};
+        enum indexEnum {I0 = 0, I1, I2, I3, I4};
 
-      for (unsigned int i = 0; i < testDefInfos.size(); i++)
-      {
-          const TestDefInfo* info = testDefInfos.at(i);
-          switch (info->def_type) {
-          case Plain:
-          case Fixtured:
-              case_name_mt = AEqualsB;
-              test_name_mt = AEqualsB;
-              break;
-          case Typed:
-              case_name_mt = AStartsWithB;
-              test_name_mt = AEqualsB;
-              break;
-          case PatternTyped:
-              case_name_mt = AContainsB;
-              test_name_mt = AEqualsB;
-              break;
-          case Parameterized:
-              case_name_mt = AEndsWithB;
-              test_name_mt = AStartsWithB;
-              break;
-          }
+        for (unsigned int i = 0; i < testDefInfos.size(); i++) {
+            const TestDefInfo* info = testDefInfos.at(i);
+            switch (info->def_type) {
+                case Plain:
+                case Fixtured:
+                    case_name_mt = AEqualsB;
+                    test_name_mt = AEqualsB;
+                    break;
+                case Typed:
+                    case_name_mt = AStartsWithB;
+                    test_name_mt = AEqualsB;
+                    break;
+                case PatternTyped:
+                    case_name_mt = AContainsB;
+                    test_name_mt = AEqualsB;
+                    break;
+                case Parameterized:
+                    case_name_mt = AEndsWithB;
+                    test_name_mt = AStartsWithB;
+                    break;
+                default:
+                    break;
+            }
 
-          const bool matched = matchNaming(testcasename.c_str(), info->test_case_name, case_name_mt) && matchNaming(testname.c_str(), info->name, test_name_mt);
-          if (matched) {
-              int level = (info->flags >> 24);
-              if (level == 1) return 0;
-              if (level == 2) return 1;
-              if (level == 4) return 2;
-              if (level == 8) return 3;
-              if (level == 16) return 4;
-          }
-      }
-      return -1;
-  }
+            const bool matched = matchNaming(testcasename.c_str(), info->test_case_name, case_name_mt) 
+              && matchNaming(testname.c_str(), info->name, test_name_mt);
+            if (matched) {
+                int level = (info->flags >> levelShift);
+                if (level == levelList[I0]) return I0;
+                if (level == levelList[I1]) return I1;
+                if (level == levelList[I2]) return I2;
+                if (level == levelList[I3]) return I3;
+                if (level == levelList[I4]) return I4;
+            }
+        }
+        return -1;
+    }
+
+    int* TestDefManager::getTestFlags (const std::string testcasename, const std::string testname) const 
+    {
+        NamingMatchType case_name_mt = AEqualsB;
+        NamingMatchType test_name_mt = AEqualsB;
+        static int flagList[3] = {-1, -1, -1};
+        int posType = 8;
+        int posSize = 4;
+        int indexType = 0;
+        int indexSize = 1;
+        int indexRank = 2;
+
+        for (unsigned int i = 0; i < testDefInfos.size(); i++) {
+            const TestDefInfo* info = testDefInfos.at(i);
+            switch (info->def_type) {
+                case Plain:
+                case Fixtured:
+                    case_name_mt = AEqualsB;
+                    test_name_mt = AEqualsB;
+                    break;
+                case Typed:
+                    case_name_mt = AStartsWithB;
+                    test_name_mt = AEqualsB;
+                    break;
+                case PatternTyped:
+                    case_name_mt = AContainsB;
+                    test_name_mt = AEqualsB;
+                    break;
+                case Parameterized:
+                    case_name_mt = AEndsWithB;
+                    test_name_mt = AStartsWithB;
+                    break;
+                default:
+                    break;
+            }
+            
+            const bool matched = matchNaming(testcasename.c_str(), info->test_case_name, case_name_mt) 
+              && matchNaming(testname.c_str(), info->name, test_name_mt);
+            if (matched) {
+                // get the three flag
+                int type = (info->flags >> posType);
+                int size = (info->flags >> posSize);
+                int rank =  info->flags;
+
+                // add three flag value in the flag list
+                flagList[indexType] = type;
+                flagList[indexSize] = size;
+                flagList[indexRank] = rank;
+            }
+        }
+        return flagList;
+    }
 
   } //namespace ext
 } //namespace testing

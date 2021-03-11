@@ -3518,6 +3518,8 @@ void XmlUnitTestResultPrinter::OnTestIterationEnd(const UnitTest& unit_test,
   PrintXmlUnitTest(&stream, unit_test);
   fprintf(xmlout, "%s", StringStreamToString(&stream).c_str());
   fclose(xmlout);
+  // add a print tag for xml output finished
+  printf("Gtest xml output finished\n");
 }
 
 void XmlUnitTestResultPrinter::ListTestsMatchingFilter(
