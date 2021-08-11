@@ -56,14 +56,14 @@ Note:If the text contains special characters, please escape them according to th
 -->
 <configuration>
 	<oatconfig>
-		<licensefile>googletest/COPYING</licensefile>
-		<policylist>
-			<policy name="projectPolicy" desc="">
-				<policyitem type="compatibility" name="InvalidLicense" path="googletest/googletest/configure.ac" desc="Non-licensing declaration file."/>
-				<policyitem type="compatibility" name="InvalidLicense" path="googletest/googletest/Makefile.am" desc="Non-licensing declaration file."/>
-				<policyitem type="compatibility" name="InvalidLicense" path="googletest/googlemock/configure.ac" desc="Non-licensing declaration file."/>
-				<policyitem type="compatibility" name="InvalidLicense" path="googletest/googlemock/Makefile.am" desc="Non-licensing declaration file."/>
-			</policy>
-		</policylist>
+		<licensefile>COPYING</licensefile>
+		<filefilterlist>
+			<filefilter name="defaultFilter" desc="Files not to check">
+				<filteritem type="filepath" name="googletest/googletest/configure.ac " desc="Non-licensing declaration file."/>
+				<filteritem type="filepath" name="googletest/googletest/Makefile.am " desc="Non-licensing declaration file."/>
+				<filteritem type="filepath" name="googletest/googlemock/configure.ac " desc="Non-licensing declaration file."/>
+				<filteritem type="filepath" name="googletest/googlemock/Makefile.am " desc="Non-licensing declaration file."/>
+			</filefilter>
+		</filefilterlist>
 	</oatconfig>
 </configuration>
