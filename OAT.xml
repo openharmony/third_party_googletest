@@ -63,7 +63,17 @@ Note:If the text contains special characters, please escape them according to th
 				<filteritem type="filepath" name="googletest/googletest/Makefile.am " desc="Non-licensing declaration file."/>
 				<filteritem type="filepath" name="googletest/googlemock/configure.ac " desc="Non-licensing declaration file."/>
 				<filteritem type="filepath" name="googletest/googlemock/Makefile.am " desc="Non-licensing declaration file."/>
+				<filteritem type="filename" name=".*" desc="not used in ohos"/>
 			</filefilter>
+            <filefilter name="binaryFileTypePolicyFilter" desc="Filters for binaryFile" >
+                <filteritem type="filename" name=".*" desc="not used in ohos"/>
+            </filefilter>
+            <filefilter name="copyrightPolicyFilter" desc="Filters for copyright header policies">
+                <filteritem type="filename" name=".*" desc="not used in ohos"/>
+            </filefilter>
+            <filefilter name="licenseFileNamePolicyFilter" desc="Filters for LICENSE file policies">
+                <filteritem type="filename" name=".*" desc="not used in ohos"/>
+            </filefilter>
 		</filefilterlist>
 	</oatconfig>
 </configuration>
