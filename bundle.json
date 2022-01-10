@@ -1,0 +1,39 @@
+{
+    "name": "@ohos/googletest",
+    "version": "",
+    "description": "Third-party open-source software Google Test | 三方开源软件Google Test",
+    "homePage": "https://gitee.com/openharmony",
+    "license": "BSD 3-Clause",
+    "repository": "https://gitee.com/openharmony/third_party_googletest",
+    "domain": "os",
+    "language": "",
+    "publishAs": "code-segment",
+    "private": false,
+    "scripts": {},
+    "tags": [
+        "third_party"
+    ],
+    "keywords": [
+        "third-party",
+        "googletest"
+    ],
+    "envs": [],
+    "dirs": [],
+    "segment": {
+        "destPath": "third_party/googletest"
+    },
+    "component": {
+        "name": "thirdparty_googletest",
+        "subsystem": "",
+        "syscap": [],
+        "features": [],
+        "adapted_system_type": [],
+        "rom": "",
+        "ram": "",
+        "build": {
+            "sub_component": [],
+            "inner_kits": [],
+            "test": []
+        }
+    }
+}
