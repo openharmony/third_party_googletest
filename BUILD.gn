@@ -25,6 +25,7 @@ static_library("gtest") {
   ]
   sources = [
     "googletest/include/gtest/gtest-death-test.h",
+    "googletest/include/gtest/gtest-matchers.h",
     "googletest/include/gtest/gtest-message.h",
     "googletest/include/gtest/gtest-param-test.h",
     "googletest/include/gtest/gtest-printers.h",
@@ -32,7 +33,6 @@ static_library("gtest") {
     "googletest/include/gtest/gtest-typed-test.h",
     "googletest/include/gtest/gtest_pred_impl.h",
     "googletest/include/gtest/gtest_prod.h",
-    "googletest/include/gtest/gtest-matchers.h",
     "googletest/include/gtest/hwext/gtest-ext.h",
     "googletest/include/gtest/hwext/gtest-filter.h",
     "googletest/include/gtest/hwext/gtest-tag.h",
@@ -107,9 +107,9 @@ static_library("gmock") {
     "googlemock/include/gmock/internal/custom/gmock-generated-actions.h",
     "googlemock/include/gmock/internal/custom/gmock-matchers.h",
     "googlemock/include/gmock/internal/custom/gmock-port.h",
-    "googlemock/include/gmock/internal/gmock-pp.h",
     "googlemock/include/gmock/internal/gmock-internal-utils.h",
     "googlemock/include/gmock/internal/gmock-port.h",
+    "googlemock/include/gmock/internal/gmock-pp.h",
     "googlemock/src/gmock-all.cc",
     "googlemock/src/gmock-cardinalities.cc",
     "googlemock/src/gmock-internal-utils.cc",
