@@ -4239,10 +4239,10 @@ void XmlUnitTestResultPrinter::OutputXmlTestInfo(::std::ostream* stream,
       FormatEpochTimeInMillisAsIso8601(result.start_timestamp()));
   OutputXmlAttribute(stream, kTestsuite, "classname", test_suite_name);
 
-  OutputXmlTestResult(stream, result);
   int level = testing::ext::TestDefManager::cinstance()->getLevel(test_info.test_case_name(), test_info.name());
   string strlevel = std::to_string(level);
   OutputXmlAttribute(stream, kTestsuite, "level", strlevel.c_str());
+  OutputXmlTestResult(stream, result);
 }
 
 void XmlUnitTestResultPrinter::OutputXmlTestResult(::std::ostream* stream,
