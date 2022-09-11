@@ -2280,7 +2280,7 @@ static const char* const kReservedTestCaseAttributes[] = {
 // still RecordProperty("result") or "RecordProperty(timestamp")
 static const char* const kReservedOutputTestCaseAttributes[] = {
     "classname",   "name", "status", "time",   "type_param",
-    "value_param", "file", "line",   "result", "timestamp"};
+    "value_param", "file", "line",   "result", "timestamp", "level"};
 
 template <size_t kSize>
 std::vector<std::string> ArrayAsVector(const char* const (&array)[kSize]) {
