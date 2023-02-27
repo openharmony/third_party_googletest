@@ -1,8 +1,8 @@
 /*
 * Copyright (c) Huawei Technologies Co., Ltd. 2022-2022. All rights reserved.
-* Description:多线程测试框架(MULTI_THREAD_TEST)库，源码移植自CDK
+* Description:多线程测试框架(GTEST-MULTITHREAD)库，源码移植自CDK
 * Author:
-* Create:2022/2/8
+* Create:2023/2/24
 */
 
 #include "gtest/hwext/gtest-multithread.h"

@@ -1,8 +1,8 @@
 /*
 * Copyright (c) Huawei Technologies Co., Ltd. 2022-2022. All rights reserved.
-* Description:多线程测试框架(MULTI_THREAD_TEST)库接口声明
+* Description:多线程测试框架(GTEST-MULTITHREAD)库接口声明
 * Author:
-* Create:2022/2/8
+* Create:2023/2/24
 */
 
 #ifndef __MULTI_THREAD_TEST_H__
