@@ -23,7 +23,17 @@
         },
         "build": {
             "sub_component": [],
-            "inner_kits": [],
+            "inner_kits": [
+                {
+                    "name": "//third_party/googletest:gtest",
+                    "header": {
+                        "header_files": [
+                            "gtest.h"
+                        ],
+                        "header_base": "//third_party/googletest/googletest/include/gtest"
+                    }
+                }
+            ],
             "test": []
         }
     }
