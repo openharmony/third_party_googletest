@@ -11,7 +11,7 @@
     "scripts": {},
     "component": {
         "name": "thirdparty_googletest",
-        "subsystem": "testfwk",
+        "subsystem": "thirdparty",
         "syscap": [],
         "features": [],
         "adapted_system_type": [],
