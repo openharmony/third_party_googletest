@@ -10,7 +10,7 @@
     "dirs": {},
     "scripts": {},
     "component": {
-        "name": "googletest",
+        "name": "thirdparty_googletest",
         "subsystem": "testfwk",
         "syscap": [],
         "features": [],
