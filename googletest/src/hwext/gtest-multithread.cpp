@@ -24,6 +24,19 @@ namespace testing{
             }
         }
 
+        void MultiThreadTest::run()
+        {
+            int i = 0;
+            for (const auto &_ : randomTasks) {
+                for (const auto &val : _.second) {
+                    auto pid = rand() % 100 + i;
+                    appendTaskToList(pid, val.m_func, val.m_testsuite, val.m_testcase);
+                }
+                i++;
+            }
+            doTest();
+        }
+
         void MultiThreadTest::doTest()
         {
             threadTestEntryList.clear();
@@ -36,7 +49,8 @@ namespace testing{
             auto check = [&](ThreadTaskEntry &t) -> void {
                 if (t.thread){
                     t.thread->join();
-                    delete t.thread;t.thread = nullptr;
+                    delete t.thread;
+                    t.thread = nullptr;
                 }
             };
             std::for_each(threadTestEntryList.begin(), threadTestEntryList.end(), check);
@@ -69,7 +83,7 @@ namespace testing{
         void MultiThreadTest::appendTaskToList(unsigned thread_id, PF func, std::string testsuite, std::string testcase)
         {
             TestTask task(testsuite, testcase, func);
-            if (thread_id == MMTEST_RANDOM_THREAD_ID){
+            if (thread_id == RANDOM_THREAD_ID){
                 randomTasks[testsuite].emplace_back(task);
                 return;
             }
@@ -78,8 +92,5 @@ namespace testing{
             }
             threadTasks[thread_id].push_back(task);
         }
-
-        static MultiThreadTest testInstance;
-        MultiThreadTest *getMTestSingleton() {return &testInstance;}
     }
 }
