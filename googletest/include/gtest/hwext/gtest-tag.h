@@ -4,6 +4,7 @@
 #define GTEST_INCLUDE_GTEST_GTEST_TAG_H_
 
 #include <string.h>
+#include <string>
 #include <map>
 #include <vector>
 
