@@ -10,7 +10,7 @@
     "dirs": {},
     "scripts": {},
     "component": {
-        "name": "thirdparty_googletest",
+        "name": "googletest",
         "subsystem": "thirdparty",
         "syscap": [],
         "features": [],
