@@ -7,6 +7,14 @@ config("gtest_private_config") {
   include_dirs = [ "googletest" ]
 }
 
+config("gtest_private_config_rtti") {
+  visibility = [ ":*" ]
+  include_dirs = [ "googletest" ]
+  cflags = [ "-frtti" ]
+  cflags_objcc = [ "-frtti" ]
+  cflags_cc = [ "-frtti" ]
+}
+
 config("gtest_config") {
   include_dirs = [ "googletest/include" ]
   if (is_mingw) {
@@ -17,57 +25,72 @@ config("gtest_config") {
   }
 }
 
+sources_files = [
+  "googletest/include/gtest/gtest-death-test.h",
+  "googletest/include/gtest/gtest-matchers.h",
+  "googletest/include/gtest/gtest-message.h",
+  "googletest/include/gtest/gtest-param-test.h",
+  "googletest/include/gtest/gtest-printers.h",
+  "googletest/include/gtest/gtest-test-part.h",
+  "googletest/include/gtest/gtest-typed-test.h",
+  "googletest/include/gtest/gtest_pred_impl.h",
+  "googletest/include/gtest/gtest_prod.h",
+  "googletest/include/gtest/hwext/gtest-ext.h",
+  "googletest/include/gtest/hwext/gtest-filter.h",
+  "googletest/include/gtest/hwext/gtest-multithread.h",
+  "googletest/include/gtest/hwext/gtest-tag.h",
+  "googletest/include/gtest/hwext/utils.h",
+  "googletest/include/gtest/internal/custom/gtest-port.h",
+  "googletest/include/gtest/internal/custom/gtest-printers.h",
+  "googletest/include/gtest/internal/custom/gtest.h",
+  "googletest/include/gtest/internal/gtest-death-test-internal.h",
+  "googletest/include/gtest/internal/gtest-filepath.h",
+  "googletest/include/gtest/internal/gtest-internal.h",
+  "googletest/include/gtest/internal/gtest-param-util.h",
+  "googletest/include/gtest/internal/gtest-port-arch.h",
+  "googletest/include/gtest/internal/gtest-port.h",
+  "googletest/include/gtest/internal/gtest-string.h",
+  "googletest/include/gtest/internal/gtest-type-util.h",
+  "googletest/src/gtest-all.cc",
+  "googletest/src/gtest-death-test.cc",
+  "googletest/src/gtest-filepath.cc",
+  "googletest/src/gtest-internal-inl.h",
+  "googletest/src/gtest-matchers.cc",
+  "googletest/src/gtest-port.cc",
+  "googletest/src/gtest-printers.cc",
+  "googletest/src/gtest-test-part.cc",
+  "googletest/src/gtest-typed-test.cc",
+  "googletest/src/gtest.cc",
+  "googletest/src/hwext/gtest-ext.cc",
+  "googletest/src/hwext/gtest-filter.cc",
+  "googletest/src/hwext/gtest-multithread.cpp",
+  "googletest/src/hwext/gtest-tag.cc",
+  "googletest/src/hwext/gtest-utils.cc",
+]
+
 static_library("gtest") {
   testonly = true
   public = [
     "googletest/include/gtest/gtest-spi.h",
     "googletest/include/gtest/gtest.h",
   ]
-  sources = [
-    "googletest/include/gtest/gtest-death-test.h",
-    "googletest/include/gtest/gtest-matchers.h",
-    "googletest/include/gtest/gtest-message.h",
-    "googletest/include/gtest/gtest-param-test.h",
-    "googletest/include/gtest/gtest-printers.h",
-    "googletest/include/gtest/gtest-test-part.h",
-    "googletest/include/gtest/gtest-typed-test.h",
-    "googletest/include/gtest/gtest_pred_impl.h",
-    "googletest/include/gtest/gtest_prod.h",
-    "googletest/include/gtest/hwext/gtest-ext.h",
-    "googletest/include/gtest/hwext/gtest-filter.h",
-    "googletest/include/gtest/hwext/gtest-multithread.h",
-    "googletest/include/gtest/hwext/gtest-tag.h",
-    "googletest/include/gtest/hwext/utils.h",
-    "googletest/include/gtest/internal/custom/gtest-port.h",
-    "googletest/include/gtest/internal/custom/gtest-printers.h",
-    "googletest/include/gtest/internal/custom/gtest.h",
-    "googletest/include/gtest/internal/gtest-death-test-internal.h",
-    "googletest/include/gtest/internal/gtest-filepath.h",
-    "googletest/include/gtest/internal/gtest-internal.h",
-    "googletest/include/gtest/internal/gtest-param-util.h",
-    "googletest/include/gtest/internal/gtest-port-arch.h",
-    "googletest/include/gtest/internal/gtest-port.h",
-    "googletest/include/gtest/internal/gtest-string.h",
-    "googletest/include/gtest/internal/gtest-type-util.h",
-    "googletest/src/gtest-all.cc",
-    "googletest/src/gtest-death-test.cc",
-    "googletest/src/gtest-filepath.cc",
-    "googletest/src/gtest-internal-inl.h",
-    "googletest/src/gtest-matchers.cc",
-    "googletest/src/gtest-port.cc",
-    "googletest/src/gtest-printers.cc",
-    "googletest/src/gtest-test-part.cc",
-    "googletest/src/gtest-typed-test.cc",
-    "googletest/src/gtest.cc",
-    "googletest/src/hwext/gtest-ext.cc",
-    "googletest/src/hwext/gtest-filter.cc",
-    "googletest/src/hwext/gtest-multithread.cpp",
-    "googletest/src/hwext/gtest-tag.cc",
-    "googletest/src/hwext/gtest-utils.cc",
-  ]
+  sources = sources_files
   sources -= [ "googletest/src/gtest-all.cc" ]
   public_configs = [ ":gtest_config" ]
   configs += [ ":gtest_private_config" ]
+  configs -= [ "//build/config/coverage:default_coverage" ]
+}
+
+static_library("gtest_rtti") {
+  testonly = true
+  public = [
+    "googletest/include/gtest/gtest-spi.h",
+    "googletest/include/gtest/gtest.h",
+  ]
+  sources = sources_files
+  sources -= [ "googletest/src/gtest-all.cc" ]
+  public_configs = [ ":gtest_config" ]
+  configs += [ ":gtest_private_config_rtti" ]
   configs -= [ "//build/config/coverage:default_coverage" ]
 }
 
