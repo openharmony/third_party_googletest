@@ -10,11 +10,14 @@
     "dirs": {},
     "scripts": {},
     "component": {
-        "name": "thirdparty_googletest",
+        "name": "googletest",
         "subsystem": "thirdparty",
         "syscap": [],
         "features": [],
-        "adapted_system_type": [],
+        "adapted_system_type": [
+            "small",
+            "standard"
+        ],
         "rom": "",
         "ram": "",
         "deps": {
