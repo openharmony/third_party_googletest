@@ -326,6 +326,8 @@ using internal::FunctionMocker;
 #define MOCK_METHOD9(m, ...) GMOCK_INTERNAL_MOCK_METHODN(, , m, 9, __VA_ARGS__)
 #define MOCK_METHOD10(m, ...) \
   GMOCK_INTERNAL_MOCK_METHODN(, , m, 10, __VA_ARGS__)
+#define MOCK_METHOD11(m, ...) \
+  GMOCK_INTERNAL_MOCK_METHODN(, , m, 11, __VA_ARGS__)
 
 #define MOCK_CONST_METHOD0(m, ...) \
   GMOCK_INTERNAL_MOCK_METHODN(const, , m, 0, __VA_ARGS__)
