@@ -35,6 +35,7 @@ static_library("gtest") {
     "googletest/include/gtest/gtest-matchers.h",
     "googletest/include/gtest/hwext/gtest-ext.h",
     "googletest/include/gtest/hwext/gtest-filter.h",
+    "googletest/include/gtest/hwext/gtest-multithread.h",
     "googletest/include/gtest/hwext/gtest-tag.h",
     "googletest/include/gtest/hwext/utils.h",
     "googletest/include/gtest/internal/custom/gtest-port.h",
@@ -58,6 +59,7 @@ static_library("gtest") {
     "googletest/src/gtest.cc",
     "googletest/src/hwext/gtest-ext.cc",
     "googletest/src/hwext/gtest-filter.cc",
+    "googletest/src/hwext/gtest-multithread.cpp",
     "googletest/src/hwext/gtest-tag.cc",
     "googletest/src/hwext/gtest-utils.cc",
   ]
