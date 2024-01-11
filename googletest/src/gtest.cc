@@ -2297,7 +2297,7 @@ static const char* const kReservedTestSuiteAttributes[] = {
 // The list of reserved attributes used in the <testcase> element of XML output.
 static const char* const kReservedTestCaseAttributes[] = {
     "classname",  "name",        "status", "time",
-    "type_param", "value_param", "file",   "line"};
+    "type_param", "value_param", "file",   "line", "level"};
 
 // Use a slightly different set for allowed output to ensure existing tests can
 // still RecordProperty("result") or "RecordProperty(timestamp")
@@ -4244,6 +4244,9 @@ void XmlUnitTestResultPrinter::OutputXmlTestInfo(::std::ostream* stream,
       FormatEpochTimeInMillisAsIso8601(result.start_timestamp()));
   OutputXmlAttribute(stream, kTestsuite, "classname", test_suite_name);
 
+  int level = testing::ext::TestDefManager::cinstance()->getLevel(test_info.test_case_name(), test_info.name());
+  string strlevel = std::to_string(level);
+  OutputXmlAttribute(stream, kTestsuite, "level", strlevel.c_str());
   OutputXmlTestResult(stream, result);
 }
 
@@ -6099,7 +6102,9 @@ int UnitTestImpl::FilterTests(ReactionToSharding shard_tests) {
 
       const bool is_runnable =
           (GTEST_FLAG_GET(also_run_disabled_tests) || !is_disabled) &&
-          matches_filter;
+          matches_filter &&
+          testing::ext::TestFilter::instance()->accept(testing::ext::TestDefManager::cinstance()->queryFlagsFor(test_info, testing::ext::TestFlag::None))
+          ;
 
       const bool is_in_another_shard =
           shard_tests != IGNORE_SHARDING_PROTOCOL &&
@@ -6450,6 +6455,17 @@ static void PrintColorEncoded(const char* str) {
   }
 }
 
+static bool ParseFilterFlag(const char* arg) {
+  const std::map<const char*, string*> kvs = testing::ext::TestFilter::instance()->getAllFilterFlagsKv();
+  std::map<const char*, string*>::const_iterator c_iter;
+  for (c_iter = kvs.begin(); c_iter != kvs.end(); c_iter++) {
+    if (ParseStringFlag(arg, c_iter->first, c_iter->second)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 static const char kColorEncodedHelpMessage[] =
     "This program contains tests written using " GTEST_NAME_
     ". You can use the\n"
@@ -6577,6 +6593,7 @@ static bool ParseGoogleTestFlag(const char* const arg) {
   GTEST_INTERNAL_PARSE_FLAG(stack_trace_depth);
   GTEST_INTERNAL_PARSE_FLAG(stream_result_to);
   GTEST_INTERNAL_PARSE_FLAG(throw_on_failure);
+  ParseFilterFlag(arg);
   return false;
 }
 
@@ -6648,6 +6665,12 @@ void ParseGoogleTestFlagsOnlyImpl(int* argc, CharType** argv) {
     // latter may not be called at all if the user is using Google
     // Test with another testing framework.
     PrintColorEncoded(kColorEncodedHelpMessage);
+    testing::ext::TestFilter::instance()->printHelp();
+  }
+
+  const bool no_error = testing::ext::TestFilter::instance()->postParsingArguments();
+  if (!no_error) {
+    exit(EXIT_FAILURE);
   }
 }
 
