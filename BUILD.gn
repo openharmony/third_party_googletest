@@ -44,7 +44,6 @@ sources_files = [
   "googletest/include/gtest/internal/custom/gtest-printers.h",
   "googletest/include/gtest/internal/custom/gtest.h",
   "googletest/include/gtest/internal/gtest-death-test-internal.h",
-  "googletest\src\gtest-assertion-result.cc
   "googletest/include/gtest/internal/gtest-filepath.h",
   "googletest/include/gtest/internal/gtest-internal.h",
   "googletest/include/gtest/internal/gtest-param-util.h",
