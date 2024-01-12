@@ -6459,7 +6459,7 @@ static bool ParseFilterFlag(const char* arg) {
   const std::map<const char*, string*> kvs = testing::ext::TestFilter::instance()->getAllFilterFlagsKv();
   std::map<const char*, string*>::const_iterator c_iter;
   for (c_iter = kvs.begin(); c_iter != kvs.end(); c_iter++) {
-    if (ParseStringFlag(arg, c_iter->first, c_iter->second)) {
+    if (ParseFlag(arg, c_iter->first, c_iter->second)) {
       return true;
     }
   }
