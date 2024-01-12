@@ -19,7 +19,7 @@ config("gtest_config") {
   include_dirs = [ "googletest/include" ]
   cflags_cc = [ "-std=c++17" ]
   if (is_mingw) {
-    cflags_cc = [
+    cflags_cc += [
       "-Wno-unused-const-variable",
       "-Wno-unused-private-field",
     ]
