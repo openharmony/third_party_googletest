@@ -19,7 +19,7 @@ config("gtest_config") {
   include_dirs = [ "googletest/include" ]
   cflags_cc = [
     "-std=c++17",
-    "-Wno-float-equal"
+    "-Wno-float-equal",
   ]
   if (is_mingw) {
     cflags_cc += [
