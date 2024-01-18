@@ -21,6 +21,7 @@ config("gtest_config") {
     "-std=c++17",
     "-Wno-float-equal",
     "-Wno-sign-compare",
+    "-Wno-reorder-init-list",
   ]
   if (is_mingw) {
     cflags_cc += [
