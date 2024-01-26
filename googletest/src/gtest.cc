@@ -6596,6 +6596,7 @@ static bool ParseGoogleTestFlag(const char* const arg) {
   return ParseFilterFlag(arg);
 }
 
+
 #if GTEST_USE_OWN_FLAGFILE_FLAG_ && GTEST_HAS_FILE_SYSTEM
 static void LoadFlagsFromFile(const std::string& path) {
   FILE* flagfile = posix::FOpen(path.c_str(), "r");
