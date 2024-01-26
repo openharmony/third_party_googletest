@@ -21,8 +21,8 @@ accept your pull requests.
 
 ## Are you a Googler?
 
-If you are a Googler, please make an attempt to submit an internal contribution
-rather than a GitHub Pull Request. If you are not able to submit internally, a
+If you are a Googler, please make an attempt to submit an internal change rather
+than a GitHub Pull Request. If you are not able to submit an internal change a
 PR is acceptable as an alternative.
 
 ## Contributing A Patch
@@ -36,8 +36,7 @@ PR is acceptable as an alternative.
     This ensures that work isn't being duplicated and communicating your plan
     early also generally leads to better patches.
 4.  If your proposed change is accepted, and you haven't already done so, sign a
-    Contributor License Agreement
-    ([see details above](#contributor-license-agreements)).
+    Contributor License Agreement (see details above).
 5.  Fork the desired repo, develop and test your code changes.
 6.  Ensure that your code adheres to the existing style in the sample to which
     you are contributing.
@@ -80,8 +79,8 @@ fairly rigid coding style, as defined by the
 [google-styleguide](https://github.com/google/styleguide) project. All patches
 will be expected to conform to the style outlined
 [here](https://google.github.io/styleguide/cppguide.html). Use
-[.clang-format](https://github.com/google/googletest/blob/main/.clang-format) to
-check your formatting.
+[.clang-format](https://github.com/google/googletest/blob/master/.clang-format)
+to check your formatting.
 
 ## Requirements for Contributors
 
