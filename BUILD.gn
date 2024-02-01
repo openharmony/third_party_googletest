@@ -17,8 +17,14 @@ config("gtest_private_config_rtti") {
 
 config("gtest_config") {
   include_dirs = [ "googletest/include" ]
+  cflags_cc = [
+    "-std=c++17",
+    "-Wno-float-equal",
+    "-Wno-sign-compare",
+    "-Wno-reorder-init-list",
+  ]
   if (is_mingw) {
-    cflags_cc = [
+    cflags_cc += [
       "-Wno-unused-const-variable",
       "-Wno-unused-private-field",
     ]
@@ -52,6 +58,7 @@ sources_files = [
   "googletest/include/gtest/internal/gtest-string.h",
   "googletest/include/gtest/internal/gtest-type-util.h",
   "googletest/src/gtest-all.cc",
+  "googletest/src/gtest-assertion-result.cc",
   "googletest/src/gtest-death-test.cc",
   "googletest/src/gtest-filepath.cc",
   "googletest/src/gtest-internal-inl.h",
