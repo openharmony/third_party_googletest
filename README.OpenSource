@@ -3,9 +3,9 @@
     "Name": "googletest",
     "License": "BSD 3-Clause License",
     "License File": "LICENSE",
-    "Version Number": "1.11.0",
-    "Owner": "zhangchunbao@huawei.com",
-    "Upstream URL": "https://github.com/google/googletest/releases/tag/release-1.11.0",
-    "Description": "The 1.11.x is the last release supporting pre-C++11 compilers. The 1.11.x will not accept any requests for any new features and any bugfix requests will only be accepted if proven critical"
+    "Version Number": "1.13.0",
+    "Owner": "",
+    "Upstream URL": "https://github.com/google/googletest/archive/refs/tags/v1.13.0.tar.gz",
+    "Description": "The 1.13.x only supports compilers above C++14. The 1.13.x will not accept any requests for any new features and any bugfix requests will only be accepted if proven critical"
   }
 ]
