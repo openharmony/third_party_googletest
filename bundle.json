@@ -35,6 +35,15 @@
                         ],
                         "header_base": "//third_party/googletest/googletest/include/gtest"
                     }
+                },
+                {
+                    "name": "//third_party/googletest:gmock",
+                    "header": {
+                        "header_files": [
+                            "gmock.h"
+                        ],
+                        "header_base": "//third_party/googletest/googlemock/include/gmock"
+                    }
                 }
             ],
             "test": []
