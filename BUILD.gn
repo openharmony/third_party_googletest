@@ -113,6 +113,14 @@ config("gmock_private_config") {
   include_dirs = [ "googlemock" ]
 }
 
+config("gmock_private_config_rtti") {
+  visibility = [ ":*" ]
+  include_dirs = [ "googlemock/include" ]
+  cflags = [ "-frtti" ]
+  cflags_objcc = [ "-frtti" ]
+  cflags_cc = [ "-frtti" ]
+}
+
 config("gmock_config") {
   include_dirs = [ "googlemock/include" ]
 
@@ -126,36 +134,49 @@ config("gmock_config") {
   ]
 }
 
+gmock_sources_files = [
+  "googlemock/include/gmock/gmock-actions.h",
+  "googlemock/include/gmock/gmock-cardinalities.h",
+  "googlemock/include/gmock/gmock-function-mocker.h",
+  "googlemock/include/gmock/gmock-matchers.h",
+  "googlemock/include/gmock/gmock-more-actions.h",
+  "googlemock/include/gmock/gmock-more-matchers.h",
+  "googlemock/include/gmock/gmock-nice-strict.h",
+  "googlemock/include/gmock/gmock-spec-builders.h",
+  "googlemock/include/gmock/internal/custom/gmock-generated-actions.h",
+  "googlemock/include/gmock/internal/custom/gmock-matchers.h",
+  "googlemock/include/gmock/internal/custom/gmock-port.h",
+  "googlemock/include/gmock/internal/gmock-internal-utils.h",
+  "googlemock/include/gmock/internal/gmock-port.h",
+  "googlemock/include/gmock/internal/gmock-pp.h",
+  "googlemock/src/gmock-all.cc",
+  "googlemock/src/gmock-cardinalities.cc",
+  "googlemock/src/gmock-internal-utils.cc",
+  "googlemock/src/gmock-matchers.cc",
+  "googlemock/src/gmock-spec-builders.cc",
+  "googlemock/src/gmock.cc",
+]
+
 static_library("gmock") {
   testonly = true
   public = [ "googlemock/include/gmock/gmock.h" ]
-  sources = [
-    "googlemock/include/gmock/gmock-actions.h",
-    "googlemock/include/gmock/gmock-cardinalities.h",
-    "googlemock/include/gmock/gmock-function-mocker.h",
-    "googlemock/include/gmock/gmock-matchers.h",
-    "googlemock/include/gmock/gmock-more-actions.h",
-    "googlemock/include/gmock/gmock-more-matchers.h",
-    "googlemock/include/gmock/gmock-nice-strict.h",
-    "googlemock/include/gmock/gmock-spec-builders.h",
-    "googlemock/include/gmock/internal/custom/gmock-generated-actions.h",
-    "googlemock/include/gmock/internal/custom/gmock-matchers.h",
-    "googlemock/include/gmock/internal/custom/gmock-port.h",
-    "googlemock/include/gmock/internal/gmock-internal-utils.h",
-    "googlemock/include/gmock/internal/gmock-port.h",
-    "googlemock/include/gmock/internal/gmock-pp.h",
-    "googlemock/src/gmock-all.cc",
-    "googlemock/src/gmock-cardinalities.cc",
-    "googlemock/src/gmock-internal-utils.cc",
-    "googlemock/src/gmock-matchers.cc",
-    "googlemock/src/gmock-spec-builders.cc",
-    "googlemock/src/gmock.cc",
-  ]
+  sources = gmock_sources_files
   sources -= [ "googlemock/src/gmock-all.cc" ]
   public_configs = [ ":gmock_config" ]
   configs += [ ":gmock_private_config" ]
   configs -= [ "//build/config/coverage:default_coverage" ]
   deps = [ ":gtest" ]
+}
+
+static_library("gmock_rtti") {
+  testonly = true
+  public = [ "googlemock/include/gmock/gmock.h" ]
+  sources = gmock_sources_files
+  sources -= [ "googlemock/src/gmock-all.cc" ]
+  public_configs = [ ":gmock_config" ]
+  configs += [ ":gmock_private_config_rtti" ]
+  configs -= [ "//build/config/coverage:default_coverage" ]
+  deps = [ ":gtest_rtti" ]
 }
 
 static_library("gmock_main") {
