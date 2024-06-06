@@ -32,6 +32,9 @@
                 },
                 {
                     "name": "//third_party/googletest:gmock"
+                },
+                {
+                    "name": "//third_party/googletest:gtest_main"
                 }
             ],
             "test": []
