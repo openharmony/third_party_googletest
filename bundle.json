@@ -41,6 +41,9 @@
                 },
                 {
                     "name": "//third_party/googletest:gtest_rtti"
+                },
+                {
+                    "name": "//third_party/googletest:gmock_rtti"
                 }
             ],
             "test": []
