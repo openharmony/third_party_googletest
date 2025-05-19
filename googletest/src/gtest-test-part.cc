@@ -31,12 +31,14 @@
 // The Google C++ Testing and Mocking Framework (Google Test)
 
 #include "gtest/gtest-test-part.h"
+
+#include <ostream>
+#include <string>
+
 #include "gtest/internal/gtest-port.h"
 #include "src/gtest-internal-inl.h"
 
 namespace testing {
-
-using internal::GetUnitTestImpl;
 
 // Gets the summary of the failure message by omitting the stack trace
 // in it.
