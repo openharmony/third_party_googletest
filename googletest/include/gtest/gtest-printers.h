@@ -326,13 +326,12 @@ template <typename T>
 void PrintWithFallback(const T& value, ::std::ostream* os) {
   using Printer = typename FindFirstPrinter<
       T, void, ContainerPrinter, FunctionPointerPrinter, PointerPrinter,
-      ProtobufPrinter,
 #ifdef GTEST_HAS_ABSL
       ConvertibleToAbslStringifyPrinter,
 #endif  // GTEST_HAS_ABSL
       internal_stream_operator_without_lexical_name_lookup::StreamPrinter,
-      ConvertibleToIntegerPrinter, ConvertibleToStringViewPrinter,
-      RawBytesPrinter, FallbackPrinter>::type;
+      ProtobufPrinter, ConvertibleToIntegerPrinter, 
+      ConvertibleToStringViewPrinter, RawBytesPrinter, FallbackPrinter>::type;
   Printer::PrintValue(value, os);
 }
 
