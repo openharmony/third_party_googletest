@@ -35,10 +35,6 @@
 
 // This line ensures that gtest.h can be compiled on its own, even
 // when it's fused.
-
-/* 2018.12.13 - Extend the interface parameters of gtest
-   Copyright (C) 2018. Huawei Technologies Co., Ltd. All rights reserved.*/
-
 #include "gtest/gtest.h"
 
 // The following lines pull in the real gtest *.cc files.
@@ -52,6 +48,8 @@
 #include "src/gtest-typed-test.cc"
 #include "src/gtest.cc"
 
+/* 2018.12.13 - Extend the interface parameters of gtest
+   Copyright (C) 2018. Huawei Technologies Co., Ltd. All rights reserved. */
 #include "src/hwext/gtest-tag.cc"
 #include "src/hwext/gtest-ext.cc"
 #include "src/hwext/gtest-filter.cc"
