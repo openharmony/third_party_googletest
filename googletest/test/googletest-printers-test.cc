@@ -54,10 +54,19 @@
 
 #include "gtest/gtest-printers.h"
 #include "gtest/gtest.h"
+#include "gtest/internal/gtest-port.h"
 
 #ifdef GTEST_HAS_ABSL
 #include "absl/strings/str_format.h"
 #endif
+
+#if GTEST_INTERNAL_HAS_STD_SPAN
+#include <span>  // NOLINT
+#endif  // GTEST_INTERNAL_HAS_STD_SPAN
+
+#if GTEST_INTERNAL_HAS_COMPARE_LIB
+#include <compare>  // NOLINT
+#endif              // GTEST_INTERNAL_HAS_COMPARE_LIB
 
 // Some user-defined types for testing the universal value printer.
 
@@ -1179,6 +1188,17 @@ TEST(PrintStlContainerTest, Vector) {
   EXPECT_EQ("{ 1, 2 }", Print(v));
 }
 
+TEST(PrintStlContainerTest, StdSpan) {
+#if GTEST_INTERNAL_HAS_STD_SPAN
+  int a[] = {3, 6, 5};
+  std::span<int> s = a;
+
+  EXPECT_EQ("{ 3, 6, 5 }", Print(s));
+#else
+  GTEST_SKIP() << "Does not have std::span.";
+#endif  // GTEST_INTERNAL_HAS_STD_SPAN
+}
+
 TEST(PrintStlContainerTest, LongSequence) {
   const int a[100] = {1, 2, 3};
   const vector<int> v(a, a + 100);
@@ -1954,6 +1974,26 @@ TEST(PrintOneofTest, Basic) {
       PrintToString(Type(NonPrintable{})));
 }
 #endif  // GTEST_INTERNAL_HAS_VARIANT
+
+#if GTEST_INTERNAL_HAS_COMPARE_LIB
+TEST(PrintOrderingTest, Basic) {
+  EXPECT_EQ("(less)", PrintToString(std::strong_ordering::less));
+  EXPECT_EQ("(greater)", PrintToString(std::strong_ordering::greater));
+  // equal == equivalent for strong_ordering.
+  EXPECT_EQ("(equal)", PrintToString(std::strong_ordering::equivalent));
+  EXPECT_EQ("(equal)", PrintToString(std::strong_ordering::equal));
+
+  EXPECT_EQ("(less)", PrintToString(std::weak_ordering::less));
+  EXPECT_EQ("(greater)", PrintToString(std::weak_ordering::greater));
+  EXPECT_EQ("(equivalent)", PrintToString(std::weak_ordering::equivalent));
+
+  EXPECT_EQ("(less)", PrintToString(std::partial_ordering::less));
+  EXPECT_EQ("(greater)", PrintToString(std::partial_ordering::greater));
+  EXPECT_EQ("(equivalent)", PrintToString(std::partial_ordering::equivalent));
+  EXPECT_EQ("(unordered)", PrintToString(std::partial_ordering::unordered));
+}
+#endif
+
 namespace {
 class string_ref;
 
