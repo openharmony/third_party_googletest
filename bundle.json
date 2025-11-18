@@ -1,6 +1,6 @@
 {
     "name": "@ohos/googletest",
-    "description": "The 1.16.x branch requires at least C++14 and will be the last to support C++14.",
+    "description": "The 1.8.x is the last release supporting pre-C++11 compilers. The 1.8.x will not accept any requests for any new features and any bugfix requests will only be accepted if proven critical",
     "version": "3.1",
     "license": "BSD 3-Clause",
     "publishAs": "code-segment",

@@ -15,7 +15,7 @@
 
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-SET BAZEL_EXE=%KOKORO_GFILE_DIR%\bazel-7.0.0-windows-x86_64.exe
+SET BAZEL_EXE=%KOKORO_GFILE_DIR%\bazel-5.1.1-windows-x86_64.exe
 
 SET PATH=C:\Python34;%PATH%
 SET BAZEL_PYTHON=C:\python34\python.exe
@@ -61,17 +61,12 @@ RMDIR /S /Q cmake_msvc2022
 :: ----------------------------------------------------------------------------
 :: Bazel
 
-:: The default home directory on Kokoro is a long path which causes errors
-:: because of Windows limitations on path length.
-:: --output_user_root=C:\tmp causes Bazel to use a shorter path.
 SET BAZEL_VS=C:\Program Files\Microsoft Visual Studio\2022\Community
-%BAZEL_EXE% ^
-  --output_user_root=C:\tmp ^
-  test ... ^
+%BAZEL_EXE% test ... ^
   --compilation_mode=dbg ^
   --copt=/std:c++14 ^
   --copt=/WX ^
-  --enable_bzlmod=true ^
+  --features=external_include_paths ^
   --keep_going ^
   --test_output=errors ^
   --test_tag_filters=-no_test_msvc2017
